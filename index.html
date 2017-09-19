@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>car-HUD</title>
+	</head>
+
+	<style>
+		#graphs {
+			float: center;
+		}
+		#graphs div {
+		   float:left;
+		   width: 12%;
+		}
+	</style>
+	
+	<body>
+		<h3>car-HUD</h3>
+		
+		<div><span>Current Value: </span><span id="el0">Untouched DOM Element</span></div>
+		<div><span>Target Value: </span><span id="el1">Untouched DOM Element</span></div>
+		
+		<p> </p>
+
+		<div id="graphs">
+			<div><canvas id="channel_0"></canvas></div>
+			<div><canvas id="channel_1"></canvas></div>
+			<div><canvas id="channel_2"></canvas></div>
+			<div><canvas id="channel_3"></canvas></div>
+			<div><canvas id="channel_4"></canvas></div>
+			<div><canvas id="channel_5"></canvas></div>
+		</div>
+		
+		<p></p>
+		
+		<div><span>Button Value: </span><span id="el2">Untouched DOM Element</span></div>
+		<div><span>Error: </span><span id="error">Untouched DOM Element</span></div>
+		<div><span>Freq: </span><span id="freq">Untouched DOM Element</span></div>
+		
+	</body>
+	
+	<script>
+		// You can also require other files to run in this process
+		require('./renderer.js')
+	</script>
+</html>
