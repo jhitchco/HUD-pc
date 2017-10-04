@@ -1,28 +1,12 @@
 const electron = require('electron');
 const fork = require('child_process').fork;
-
-// Module to control application life.
+const path = require('path');
+const url = require('url');
 const app = electron.app;
 const {ipcMain} = require('electron');
 
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-
-const path = require('path');
-const url = require('url');
-
-var gpio = require('rpi-gpio');
- 
-gpio.setup(7, gpio.DIR_OUT, write);
- 
-function write() {
-    gpio.write(7, true, function(err) {
-        if (err) throw err;
-        console.log('Written to pin');
-    });
-}
-
-write();
 
 var arduinoProcessReady = true;
 
@@ -31,10 +15,6 @@ const processConfig = {
 }
 
 var hardware_process = fork('./arduino_reader.js', options=processConfig);
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
 
 function createWindow () {
 	// Create the browser window.
@@ -47,7 +27,7 @@ function createWindow () {
 		slashes: true
 	}))
 	
-	mainWindow.setFullScreen(true); // make the app full screen
+	//mainWindow.setFullScreen(true); // make the app full screen
 
 	//Open the DevTools.
 	//mainWindow.webContents.openDevTools()
