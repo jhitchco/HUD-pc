@@ -2,6 +2,7 @@
 
 The software driving the display on the hitcho-mk4.
 
+## Software Organization:
 ![Software Organization](./organization.png)
 
 ## Important Notes:
