@@ -3,7 +3,7 @@
 The software driving the display on the hitcho-mk4.
 
 ## Software Organization:
-![Software Organization](./organization.png)
+![Software Organization](https://user-images.githubusercontent.com/3516293/31198599-da37c550-a922-11e7-993c-caa9341039f2.png)
 
 ## Important Notes:
 
