@@ -6,7 +6,7 @@ const {ipcRenderer} = require('electron');
 
 var Chart = require('chart.js')
 
-var config = {
+var chart_config = {
 	type: 'bar',
 	
 	data: {
@@ -55,7 +55,7 @@ for (var i in chart_element_names) {
 	console.log("Creating Chart for: " + String(elementName))
 	var element = document.getElementById(elementName);
 	element.height = 600;
-	var myConfig = JSON.parse(JSON.stringify(config)); // you have to do this, or they will all reference the same DOM canvas. 
+	var myConfig = JSON.parse(JSON.stringify(chart_config)); // you have to do this, or they will all reference the same DOM canvas. 
 	var chart = new Chart(element, myConfig); 
 	console.log(chart)
 	charts[i] = chart;
