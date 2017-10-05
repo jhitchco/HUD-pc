@@ -91,12 +91,15 @@ function processMessage(m) {
 					port.flush();
 				}
 				arduinoReady = true;
+			
 			});
 			
 			// Start polling the arduino 
 			setInterval(function() {
 				if (arduinoReady) {
+					
 					var messageBytes;
+					
 					if (startMode) {
 						console.log("AR - Sending start mode bytes")
 						messageBytes = [2, 0];	
@@ -106,6 +109,7 @@ function processMessage(m) {
 					}
 					
 					messageBytes.push(calcCRC(messageBytes));
+					
 					writeAndDrain(port, messageBytes, error);
 					console.log("AR - Sending message to arduino: [" + String(messageBytes) + "]");					
 					numResponseErrors = 0;

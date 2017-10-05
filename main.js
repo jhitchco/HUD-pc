@@ -4,6 +4,7 @@ const path = require('path');
 const url = require('url');
 const app = electron.app;
 const {ipcMain} = require('electron');
+var gpio = require('rpi-gpio');
 
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
@@ -51,6 +52,15 @@ function startWorker() {
 			arduinoProcessReady = false;
 		}
 	}, 100);
+}
+ 
+gpio.setup(7, gpio.DIR_OUT, write);
+ 
+function write() {
+    gpio.write(7, true, function(err) {
+        if (err) throw err;
+        console.log('Written to pin');
+    });
 }
 
 // This method will be called when Electron has finished
@@ -103,3 +113,4 @@ hardware_process.on('message', (m) => {
 	mainWindow.webContents.send('main-to-renderer', JSON.stringify(displayJSON));
 	arduinoProcessReady = true;
 });
+
