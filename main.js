@@ -23,7 +23,7 @@ function createWindow () {
 
 	// and load the index.html of the app.
 	mainWindow.loadURL(url.format({
-		pathname: path.join(__dirname, 'index.html'),
+		pathname: path.join(__dirname, 'v1.html'),
 		protocol: 'file:',
 		slashes: true
 	}))
@@ -92,20 +92,20 @@ hardware_process.on('message', (m) => {
 	
 	var displayJSON = {
 		chartValues: {
-			chart_0: reportJSON.sensorValues[0], 
-			chart_1: reportJSON.sensorValues[1],
-			chart_2: reportJSON.sensorValues[2],
-			chart_3: reportJSON.sensorValues[3],
-			chart_4: reportJSON.sensorValues[4],
-			chart_5: reportJSON.sensorValues[5]
+			chart_0: reportJSON.dataValues[0], 
+			chart_1: reportJSON.dataValues[1],
+			chart_2: reportJSON.dataValues[2],
+			chart_3: reportJSON.dataValues[3],
+			chart_4: reportJSON.dataValues[4],
+			chart_5: reportJSON.dataValues[5]
 		},
 		
 		switchValues: {
-			sw1: reportJSON.sensorValues[6],
-			sw2: reportJSON.sensorValues[7]
+			sw1: reportJSON.dataValues[6],
+			sw2: reportJSON.dataValues[7]
 		},
 		error: reportJSON.error,
-		freq: reportJSON.sensorValues[8]
+		freq: reportJSON.dataValues[8]
 	};
 	
 	console.log(JSON.stringify(displayJSON))

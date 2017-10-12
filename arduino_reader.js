@@ -2,11 +2,11 @@ var SerialPort = require('serialport');
 
 var reportJSON = {}; // this is the JSON object that is to be sent back to the main process
 
-reportJSON.sensorValues = [];
+reportJSON.dataValues = [];
 reportJSON.error = false;
 
-var sensorNumber = 0; // the sensor number that this process is reading
-var maxSensorNumber = 8; // the max sensor number, NOT zero indexed
+var dataNumber = 0; // the sensor number that this process is reading
+var maxdataNumber = 9; // the max sensor number, NOT zero indexed
 
 var startMode = true;
 var arduinoReady = true;
@@ -81,11 +81,11 @@ function processMessage(m) {
 				
 				if (goodCRC) {
 					console.log("AR - CRC passed, got regular message")
-					reportJSON.sensorValues[sensorNumber] = d;	
+					reportJSON.dataValues[dataNumber] = d;	
 					reportJSON.error = false;
-					sensorNumber++;
-					if (sensorNumber > maxSensorNumber) {
-						sensorNumber = 0;
+					dataNumber++;
+					if (dataNumber > maxdataNumber) {
+						dataNumber = 0;
 					}
 				} else {
 					port.flush();
@@ -105,7 +105,7 @@ function processMessage(m) {
 						messageBytes = [2, 0];	
 						port.drain();
 					} else {
-						messageBytes = [0, sensorNumber];	
+						messageBytes = [0, dataNumber];	
 					}
 					
 					messageBytes.push(calcCRC(messageBytes));
@@ -126,7 +126,7 @@ function processMessage(m) {
 						startMode = true;
 					}
 				}
-			}, 10);
+			}, 100);
 			break;
 	}
 }
