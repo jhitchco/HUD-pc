@@ -13,28 +13,12 @@ ipcRenderer.on('main-to-renderer', (event, arg) => {
 	errorElement.innerHTML = String(displayJSON.error)
 	
 	if (displayJSON.error == false) {
-	
-		var valueNumber = 0;
-		var values = [];
 		
-		for (var key in displayJSON.chartValues) {
-			if (displayJSON.chartValues.hasOwnProperty(key)) {
-				var val = displayJSON.chartValues[key];
-				values[valueNumber] = val;
-				valueNumber++;
-			}	
-		}
+		var element = document.getElementById("speed");
+		element.innerHTML = String(displayJSON.MPH)
 		
-		var element = document.getElementById("el2");
-		element.innerHTML = String(displayJSON.switchValues.sw1)
-		
-		for (var i in charts) {
-			charts[i].data.datasets[0].data[0] = values[i];
-			charts[i].update();
-		}
-		
-		var element2 = document.getElementById("freq");
-		element2.innerHTML = String(displayJSON.freq)
+		var element2 = document.getElementById("odo");
+		element2.innerHTML = String(displayJSON.odometerValue)
 	}
 	// Reply on async message from renderer process
     event.sender.send('renderer-to-main', 1);

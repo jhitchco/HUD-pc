@@ -4,12 +4,13 @@ const path = require('path');
 const url = require('url');
 const app = electron.app;
 const {ipcMain} = require('electron');
-var gpio = require('rpi-gpio');
 
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
 var arduinoProcessReady = true;
+
+var odometerCount = 0;
 
 const processConfig = {
 	silent: false
@@ -40,6 +41,8 @@ function createWindow () {
 		// when you should delete the corresponding element.
 		mainWindow = null
 	})
+	
+	odometerCount = 0;
 }
 
 function startWorker() {
@@ -52,15 +55,6 @@ function startWorker() {
 			arduinoProcessReady = false;
 		}
 	}, 100);
-}
- 
-gpio.setup(7, gpio.DIR_OUT, write);
- 
-function write() {
-    gpio.write(7, true, function(err) {
-        if (err) throw err;
-        console.log('Written to pin');
-    });
 }
 
 // This method will be called when Electron has finished
@@ -90,22 +84,39 @@ hardware_process.on('message', (m) => {
 	
 	var reportJSON = JSON.parse(m);
 	
+	var msPerRotation = reportJSON.dataValues[0];
+	var rotationPerms = 1/msPerRotation;
+	var RPM = rotationPerms * 0.000016667
+	var rotationsPerHour = RPM * 60
+	
+	var wheelcircummiles = 0.0002
+	var milesPerHour = rotationsPerHour * wheelcircummiles
+	
+	if (odometerCount == null) {
+		odometerCount = 0;
+	}
+	
+	var newCounts = parseInt(reportJSON.dataValues[1]);
+	
+	if (isNaN(odometerCount)) {
+		console.log("Odometer Count is Null!");
+		odometerCount = 0;
+	}
+	
+	if (isNaN(newCounts)) {
+		console.log("Newcounts is Null!");
+		newCounts = 0;
+	}
+	
+	odometerCount = odometerCount + newCounts;
+	
+	console.log("New Counts: " + newCounts);
+	console.log("Odometer Count: " + odometerCount);
+	
 	var displayJSON = {
-		chartValues: {
-			chart_0: reportJSON.dataValues[0], 
-			chart_1: reportJSON.dataValues[1],
-			chart_2: reportJSON.dataValues[2],
-			chart_3: reportJSON.dataValues[3],
-			chart_4: reportJSON.dataValues[4],
-			chart_5: reportJSON.dataValues[5]
-		},
-		
-		switchValues: {
-			sw1: reportJSON.dataValues[6],
-			sw2: reportJSON.dataValues[7]
-		},
+		MPH: milesPerHour,
+		odometerValue: odometerCount,
 		error: reportJSON.error,
-		freq: reportJSON.dataValues[8]
 	};
 	
 	console.log(JSON.stringify(displayJSON))
