@@ -29,7 +29,7 @@ function createWindow () {
 		slashes: true
 	}))
 	
-	//mainWindow.setFullScreen(true); // make the app full screen
+	mainWindow.setFullScreen(true); // make the app full screen
 
 	//Open the DevTools.
 	//mainWindow.webContents.openDevTools()
